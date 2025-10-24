@@ -1,0 +1,4 @@
+
+$(function (){
+    $('#notificacionModal').modal('show');
+});
