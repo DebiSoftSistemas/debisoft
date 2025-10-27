@@ -7,7 +7,7 @@ use CodeIgniter\Session\Handlers\FileHandler;
 
 class App extends BaseConfig
 {
-    public string $baseURL = 'https://debisoft.technology/debisoft/';
+    public string $baseURL = '';
     public array $allowedHostnames = [];
     public string $indexPage = '';
     public string $uriProtocol = 'REQUEST_URI';
@@ -40,4 +40,13 @@ class App extends BaseConfig
     public bool $CSRFRedirect = false;
     public string $CSRFSameSite = 'Lax';
     public bool $CSPEnabled = false;
+	public function __construct()
+    {
+        $isHttps = ($_SERVER['HTTPS'] ?? '') === 'on' 
+                 || ($_SERVER['HTTP_X_FORWARDED_PROTO'] ?? '') === 'https'
+                 || ($_SERVER['REQUEST_SCHEME'] ?? '') === 'https';
+        
+        $this->baseURL = ($isHttps ? 'https' : 'http') 
+            . '://' . $_SERVER['HTTP_HOST'] . '/debisoft/';
+    }
 }
